@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import { connect } from 'react-redux'
 import axios from 'axios'
-import { selectAnswer, fetchQuiz } from '../state/action-creators'
+import { selectAnswer, fetchQuiz, postAnswer } from '../state/action-creators'
 
 function Quiz(props) {
   // const [data, setData] = useState([])
@@ -9,8 +9,8 @@ function Quiz(props) {
     fetchQuiz()
   },[])
 // console.log(data.answers)
-  const {selectAnswer, fetchQuiz, state} = props
-  console.log(state)
+  const {selectAnswer, fetchQuiz, quiz, select, postAnswer} = props
+  console.log(select)
 //  const {answers, quiz_id, question} = data
   return (
 
@@ -19,34 +19,26 @@ function Quiz(props) {
       {
         
         // quiz already in state? Let's use that, otherwise render "Loading next quiz..."
-        true ? (
+        quiz !== null ? (
           <>
-            <h2>What is a closure</h2>
-            {/* <h2 id={quiz_id}>{question}</h2> */}
-            
-            {/* {data.answers.map(answer => {
-              return (
-              <h1>{answer.text}</h1>
-              )
-            })}  */}
+            {/* <h2>What is a closure</h2> */}
+            <h2 id={quiz.quiz_id}>{quiz.question}</h2>
+
             
             <div id="quizAnswers">
-              <div className="answer selected" onClick={()=>selectAnswer('A function')} >
-                A function
-                <button onClick={()=>selectAnswer('A function')}>
-                  SELECTED
+            {quiz.answers.map(answer => {
+              return (
+                <div key = {answer.answer_id} className={select !== answer.answer_id ? 'answer' : 'answer selected'} onClick={()=>selectAnswer(answer.answer_id)} >
+                {answer.text}
+                <button>
+                  {select !== answer.answer_id ? 'Select': 'SELECTED'}
                 </button>
               </div>
-
-              <div className="answer" onClick={()=>selectAnswer('An elephant')}>
-                An elephant
-                <button onClick={()=>selectAnswer('An elephant')}>
-                  Select
-                </button>
-              </div>
+              )
+            })} 
             </div>
 
-            <button id="submitAnswerBtn">Submit answer</button>
+            <button id="submitAnswerBtn" onClick={()=>postAnswer(quiz.quiz_id, select)}>Submit answer</button>
           </>
         ) : 'Loading next quiz...'
       }
@@ -61,10 +53,11 @@ function Quiz(props) {
 // }
 
 const mapStateToProps = state => {
-    console.log(state.quiz)
+    console.log(state.selectedAnswer)
     return{
-      state: state.quiz,
+      quiz: state.quiz,
+      select: state.selectedAnswer
     }
 }
 
-export default connect(mapStateToProps, {selectAnswer, fetchQuiz})(Quiz);
+export default connect(mapStateToProps, {selectAnswer, fetchQuiz, postAnswer})(Quiz);

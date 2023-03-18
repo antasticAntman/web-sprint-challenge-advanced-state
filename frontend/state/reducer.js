@@ -77,11 +77,16 @@ const initialFormState = {
   newFalseAnswer: '',
 }
 function form(state = initialFormState, action) {
+  console.log('reducer', action.payload)
   switch(action.type){
     case(INPUT_CHANGE):
-      return(
-        action.payload
-      )
+      return({
+        ...state,
+        [action.payload.name]: action.payload.value,
+        // newTrueAnswer: action.payload,
+        // newFalseAnswer: action.payload,
+
+      })
     case(RESET_FORM):
         return(
           state=initialFormState

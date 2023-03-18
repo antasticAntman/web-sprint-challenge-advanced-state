@@ -26,9 +26,10 @@ export function setQuiz(url) {
 return ({type:SET_QUIZ_INTO_STATE, payload: url})
  }
 
-export function inputChange(id,input) {
+export function inputChange(e) {
   return({
-    type:INPUT_CHANGE, payload: {inputId: id, value: input}
+    type:INPUT_CHANGE, payload: e.target
+    // {inputId: id, value: input}
   })
  }
 

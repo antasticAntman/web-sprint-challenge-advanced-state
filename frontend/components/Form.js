@@ -26,7 +26,7 @@ const onChange = e => {
       <input name='newTrueAnswer' value={trueA} maxLength={50} onChange={onChange} id="newTrueAnswer" placeholder="Enter true answer" />
       <input name='newFalseAnswer' value={falseA} maxLength={50} onChange={onChange} id="newFalseAnswer" placeholder="Enter false answer" />
       
-      {newQ !== '' && trueA !== '' && falseA !== '' ?
+      {newQ !== '' && trueA !== '' && falseA !== '' && newQ != '   ' && trueA != '   ' && falseA != '   ' ?
       <button id="submitNewQuizBtn">Submit new quiz</button>
       :<button id="submitNewQuizBtn" disabled >Submit new quiz</button>}
       

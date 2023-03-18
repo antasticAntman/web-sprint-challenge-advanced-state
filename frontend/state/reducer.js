@@ -82,14 +82,19 @@ function form(state = initialFormState, action) {
     case(INPUT_CHANGE):
       return({
         ...state,
-        [action.payload.name]: action.payload.value,
+        ...action.payload
         // newTrueAnswer: action.payload,
         // newFalseAnswer: action.payload,
 
       })
     case(RESET_FORM):
+    console.log('hello')
         return(
-          state=initialFormState
+          state={
+            newQuestion:'',
+            newTrueAnswer:'',
+            newFalseAnswer:'',
+          }
         )
     default:
       return state

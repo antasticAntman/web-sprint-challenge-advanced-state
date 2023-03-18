@@ -5,12 +5,13 @@ import { selectAnswer, fetchQuiz, postAnswer } from '../state/action-creators'
 
 function Quiz(props) {
   // const [data, setData] = useState([])
-  useEffect(()=> {
-    fetchQuiz()
-  },[])
+
 // console.log(data.answers)
   const {selectAnswer, fetchQuiz, quiz, select, postAnswer} = props
   console.log(select)
+  useEffect(()=> {
+    select === null ? fetchQuiz(): ''
+  },[])
 //  const {answers, quiz_id, question} = data
   return (
 
@@ -19,7 +20,7 @@ function Quiz(props) {
       {
         
         // quiz already in state? Let's use that, otherwise render "Loading next quiz..."
-        quiz !== null ? (
+        quiz !== null ?  (
           <>
             {/* <h2>What is a closure</h2> */}
             <h2 id={quiz.quiz_id}>{quiz.question}</h2>
@@ -38,7 +39,9 @@ function Quiz(props) {
             })} 
             </div>
 
-            <button id="submitAnswerBtn" onClick={()=>postAnswer(quiz.quiz_id, select)}>Submit answer</button>
+            {select !== '' 
+            ? <button id="submitAnswerBtn" onClick={()=>postAnswer(quiz.quiz_id, select)}>Submit answer</button>
+            :<button id="submitAnswerBtn" disabled onClick={()=>postAnswer(quiz.quiz_id, select)}>Submit answer</button>}
           </>
         ) : 'Loading next quiz...'
       }
@@ -53,7 +56,7 @@ function Quiz(props) {
 // }
 
 const mapStateToProps = state => {
-    console.log(state.selectedAnswer)
+    console.log(state.selectAnswer)
     return{
       quiz: state.quiz,
       select: state.selectedAnswer
